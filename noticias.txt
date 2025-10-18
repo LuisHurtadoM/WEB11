@@ -1,0 +1,57 @@
+# noticias.txt — Centro de Día Net‑Avó
+# Regla: cada bloque separado por --- ; obligatorios: title, date (YYYY-MM-DD), url
+# Opcionales: image, tags, kicker, excerpt (o cuerpo tras una línea en blanco)
+
+title: Taller de memoria activa
+date: 2025-08-05
+url: /blog/taller-memoria-activa.html
+image: imagenes/noticias/memoria.jpg
+tags: salud, cognición, actividades
+kicker: Programa
+
+Promovemos ejercicios de memoria y atención para personas mayores.
+Sesión introductoria abierta el próximo martes en el centro.
+
+---
+title: Nueva ruta accesible al paraíso
+date: 2025-08-10
+url: /noticias/ruta-accesible.html
+image: imagenes/noticias/puzle.jpg
+tags: accesibilidad, obras
+kicker: Accesibilidad
+
+Hemos finalizado la adaptación del acceso al jardín para andadores y sillas de ruedas.
+Pendientes suaves, superficies firmes y señalización clara para mayor seguridad.
+
+---
+title: Octubre en la USC: La docencia y la importancia de lo social.
+date: 2025-10-17
+url: /noticias/ruta-accesible.html
+image: imagenes/noticias/Facultade.jpeg
+tags: Docencia
+kicker: Centro
+
+
+Desde el centro de día, además de trabajar por las personas mayores, nos enfocamos en compartir e intentar mejorar el conocimiento de otros profesionales. Estas semanas de Octubre, continuamos las actividades formativas con la docencia en la facultad de psicología de la Universidad de Santiago de Compostela, es una de esas tareas, que aunque a veces complica la rutina personal, tiene una intención, una ética y un compromiso con los valores de nuestra profesión.
+
+Participar en la **formación de las nuevas generaciones** de profesionales de la psicogerontología es sin duda un acto de fé y de responsabilidad. Creemos que visibilizar lo que ocurre en el día a día de nuestro sector, en el día a día de las personas mayores y sus familias, da valor y hará mejor a los nuevos y nuevas profesionales.
+
+En la asignatura de intervención funcional y cognitiva en demencias, tratamos las limitaciones que sufren las personas mayores que sufren esta enfermedad. Primero las obvias, las neurológicas, pero también las sociales, los estigmas, el edadismo o la invisibilidad. Así muchas veces, enfocados tanto en la patología y su diagnóstico, nos olvidamos que tienen otras muchas necesidades, por ejemplo **necesidades sociales**, como el resto de personas.
+
+Vivimos momentos donde la carga y exigencia del cuidado de tipo sanitario en el sector, eclipsa los objetivos personales, de realización personal así como los objetivos sociales o de conexión con la participación en la comunidad. Por tener cubiertas las necesidades de salud, no significa que las personas mayores tengan su resto de necesidades cubiertas.
+
+Aspiramos a mostrar a los profesionales del futuro la necesidad de seguir trabajando para que el sector socioSANITARIO, pueda ponerse todo en mayúsculas, y que lo socio, lo social, se ponga a la misma altura que lo sanitario.
+---
+title: Taller de memoria activa
+date: 2025-08-05
+url: /blog/taller-memoria-activa.html
+image: imagenes/noticias/memoria.jpg
+tags: salud, cognición, actividades
+kicker: Programa
+
+**Un nuevo marcador cerebral basado en imagen revela cómo envejece el cerebro de forma biológica, más allá de la edad cronológica.** Este avance abre la puerta a **identificar precozmente** a personas con mayor riesgo de desarrollar demencia, deterioro cognitivo leve u otras enfermedades crónicas, y plantea nuevas posibilidades para la **prevención personalizada del envejecimiento patológico.**
+
+El marcador, denominado **DunedinPACNI1**, se desarrolló a partir de resonancias magnéticas (RM) estructurales estándar y evalúa más de 300 características cerebrales, como el grosor cortical, los volúmenes subcorticales o el contraste sustancia gris Y blanca. En este estudio se incluyeron más de 50.000 RM de adultos entre 22 y 98 años. Un envejecimiento cerebral acelerado se asoció con **peor salud general, mayor fragilidad, menor rendimiento cognitivo y mayor riesgo de conversión a demencia**.  
+En el estudio ADNI, quienes **envejecían más rápido** tenían un 61% más de riesgo de progresar a deterioro cognitivo leve o demencia. Este índice también **reflejó desigualdades sociales**, siendo más desfavorable en personas con menor nivel educativo o ingresos bajos. Los investigadores esperan disponer pronto de normas poblacionales que permitan utilizar esta herramienta en la práctica clínica.
+
+DunedinPACNI representa un prometedor paso hacia la medicina de precisión en el envejecimiento y en la neurodegeneración. Su aplicación podría **ayudar a personalizar intervenciones preventivas y terapéuticas, y convertirse en un nuevo estándar clínico para estimar el ritmo biológico de envejecimiento cerebral a lo largo de la vida.**

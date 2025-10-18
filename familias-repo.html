@@ -1,0 +1,229 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Noticias para Familias — Repositorio — Net-Avó</title>
+    <link rel="stylesheet" href="./estilos/styles.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script defer src="./JS/main.js"></script>
+    <script>window.__NETAVO_NEWS_CENTRAL = true;</script>
+
+    <script defer src="./JS/logonetavo.js"></script>
+</head><body onload="if(window.pintarLogo) pintarLogo();">
+<header class="header">
+    <div class="container navbar">
+        <a class="brand" href="index.html" aria-label="Inicio">
+            <div id="logo">
+                <canvas id="micanvas"> </canvas>
+            </div>
+            <div class="brand__copy">
+                <h2 class="brand__title">Centro de día Net-Avó</h2>
+                <h5 class="brand__subtitle">Para mayores y familias</h5>
+                <span class="brand__tagline">Tu centro para hacer, estar y ser</span>
+            </div>
+        </a>
+        <input id="nav-toggle" class="nav-toggle" type="checkbox" hidden>
+        <label class="nav-burger btn btn--sm" for="nav-toggle" aria-label="Abrir menú">☰</label>
+
+
+        <nav class="nav" aria-label="Principal">
+            <a href="index.html" data-i18n="nav_home">Inicio</a>
+            <details class="menu-dd">
+                <summary>Centros</summary>
+                <ul class="menu-dd__list">
+                    <li><a href="VazquezVarela.html">Vázquez Varela</a></li>
+                    <li><a href="Bouzas.html">Bouzas</a></li>
+                </ul>
+            </details>
+            <details class="menu-dd">
+                <summary>Información</summary>
+                <ul class="menu-dd__list">
+                    <li><a href="familias.html">Familias</a></li>
+                    <li><a href="profesionales.html">Profesionales</a></li>
+                </ul>
+            </details>
+            <details class="menu-dd">
+                <summary>Contacto</summary>
+                <ul class="menu-dd__list">
+                    <li>
+                        <a href="mailto:centrodedianetavo@gmail.com">
+                            <svg class="social__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                            <span>Escríbanos un correo</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.facebook.com/netavocentrodedia" target="_blank" rel="noopener">
+                            <svg class="social__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32V7.46H6.11v4.09h3.39v10.04h4.28V11.55h3.37l.42-4.09z"></path>
+                            </svg>
+                            <span>Visítenos en Facebook</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.instagram.com/centrodedianetavo" target="_blank" rel="noopener">
+                            <svg class="social__icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+                                <path d="M12 2c2.72 0 3.05.01 4.12.06 1.06.05 1.79.22 2.42.46.65.25 1.23.58 1.77.98.54.4.87.92.98 1.77.24.63.41 1.36.46 2.42.05 1.07.06 1.4.06 4.12s-.01 3.05-.06 4.12c-.05 1.06-.22 1.79-.46 2.42-.25.65-.58 1.23-.98 1.77-.4.54-.92.87-1.77.98-.63.24-1.36.41-2.42.46-1.07.05-1.4.06-4.12.06s-3.05-.01-4.12-.06c-1.06-.05-1.79-.22-2.42-.46-.65-.25-1.23-.58-1.77-.98-.54-.4-.87-.92-.98-1.77-.24-.63-.41-1.36-.46-2.42-.05-1.07-.06-1.4-.06-4.12s.01-3.05.06-4.12c.05-1.06.22-1.79.46-2.42.25-.65.58-1.23.98-1.77.4-.54.92-.87 1.77-.98.63-.24 1.36-.41 2.42-.46C8.95 2.01 9.28 2 12 2zm0-2C9.25 0 8.87.01 7.8.06 6.7.1 5.82.28 5.03.58c-.8.3-1.5.7-2.12 1.33S1.58 3.63.95 4.4c-.3.8-.48 1.68-.53 2.78-.05 1.07-.06 1.45-.06 4.2s.01 3.13.06 4.2c.05 1.1.23 1.98.53 2.78.3.8.7 1.5 1.33 2.12.63.62 1.32 1.03 2.12 1.33.8.3 1.68.48 2.78.53 1.07.05 1.45.06 4.2.06s3.13-.01 4.2-.06c1.1-.05 1.98-.23 2.78-.53.8-.3 1.5-.7 2.12-1.33.62-.63 1.03-1.32 1.33-2.12.3-.8.48-1.68.53-2.78.05-1.07.06-1.45.06-4.2s-.01-3.13-.06-4.2c-.05-1.1-.23-1.98-.53-2.78-.3-.8-.7-1.5-1.33-2.12-.63-.63-1.32-1.03-2.12-1.33-.8-.3-1.68-.48-2.78-.53C15.13.01 14.75 0 12 0zm0 5.83c-3.4 0-6.17 2.77-6.17 6.17s2.77 6.17 6.17 6.17 6.17-2.77 6.17-6.17S15.4 5.83 12 5.83zM12 16c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4zm4.2-11.8c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"></path>
+                            </svg>
+                            <span>Síganos en IG</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://wa.me/34656692945" target="_blank" rel="noopener">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="social__icon" fill="currentColor" aria-hidden="true">
+                                <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.61 15.36 3.48 16.84L2 22L7.32 20.55C8.75 21.35 10.35 21.81 12.04 21.81C17.5 21.81 21.95 17.36 21.95 11.91C21.95 6.45 17.5 2 12.04 2ZM12.04 20.13C10.56 20.13 9.12 19.7 7.89 18.9L7.54 18.7L4.24 19.54L5.1 16.33L4.88 15.97C4.04 14.65 3.59 13.14 3.59 11.91C3.59 7.31 7.41 3.49 12.04 3.49C16.67 3.49 20.49 7.31 20.49 11.91C20.49 16.51 16.67 20.13 12.04 20.13ZM17.26 14.45C17.03 14.33 15.92 13.8 15.72 13.72C15.52 13.64 15.38 13.6 15.23 13.83C15.09 14.06 14.66 14.62 14.52 14.78C14.38 14.94 14.24 14.96 14 14.84C13.76 14.72 12.98 14.45 12.06 13.62C11.31 12.93 10.79 12.11 10.65 11.88C10.51 11.65 10.62 11.53 10.72 11.43C10.81 11.33 10.93 11.17 11.05 11.03C11.17 10.89 11.21 10.79 11.3 10.63C11.39 10.47 11.35 10.33 11.27 10.21C11.19 10.09 10.76 8.98 10.58 8.53C10.4 8.08 10.22 8.16 10.09 8.15C9.96 8.14 9.82 8.14 9.68 8.14C9.54 8.14 9.29 8.19 9.09 8.38C8.89 8.57 8.42 9.01 8.42 10.22C8.42 11.43 9.11 12.58 9.23 12.74C9.35 12.9 10.76 15.03 12.89 15.86C14.74 16.57 15.03 16.48 15.46 16.44C15.89 16.4 16.96 15.83 17.15 15.23C17.34 14.63 17.34 14.12 17.26 14.01V14.01L17.26 14.45Z"></path>
+                            </svg>
+                            <span>Mensaje de WhatsApp</span>
+                        </a>
+                    </li>
+                </ul>
+            </details>
+            <a href="ColaboradoresExternos.html" data-i18n="nav_colab">Colaboradores</a>
+        </nav>
+        <div class="theme-switch"><button class="btn btn--sm btn--ghost" data-action="toggle-theme"
+                                          aria-label="Cambiar tema">🌓 Tema</button></div>
+    </div>
+    </div>
+</header>
+<main class="container" style="padding:2rem 1rem 3rem;">
+    <div class="news-controls">
+    <h1>Noticias para Familias — Repositorio</h1>
+    <div class="news-search">
+        <input type="search" id="news-search-input" placeholder="Buscar por palabra clave..." class="btn" style="border-radius: 999px; width: 100%;">
+    </div>
+</div>
+<div id="news-filters" class="news-filters">
+    </div>
+    <!-- <p class="muted">Repositorio completo de publicaciones (todas las entradas).</p> -->
+    <div class="news__list grid" id="repo-familias"></div>
+</main>
+<footer class="footer">
+    <div class="container footer__grid">
+      <div class="card" data-card-readmore="1">
+        <h4>R/ Vázquez Varela nº17 · Vigo</h4>
+        <div class="phones">
+          <div><a href="tel:+34986116660" style="display:inline-flex;align-items:center;gap:.4rem;">
+              <svg viewBox="0 0 16 16" class="social__icon" aria-hidden="true" width="16" height="16">
+                <path
+                  d="M3.654 1.328a.678.678 0 0 1 1.015-.063L6.29 2.893c.329.329.445.81.29 1.234l-.547 1.493a.678.678 0 0 0 .173.7l2.457 2.457a.678.678 0 0 0 .7.173l1.493-.547a1.745 1.745 0 0 1 1.234.29l1.628 1.628a.678.678 0 0 1-.063 1.015l-1.017.813c-.58.464-1.4.58-2.09.29-1.254-.513-2.844-1.82-4.507-3.482C5.276 7.86 3.97 6.27 3.457 5.016c-.29-.69-.174-1.51.29-2.09l.813-1.017z"
+                  fill="currentColor" />
+              </svg>
+              986 116 660
+            </a></div>
+          <div><a href="https://wa.me/34656692945" target="_blank" rel="noopener"
+              style="display:inline-flex;align-items:center;gap:.4rem;">
+              <svg viewBox="0 0 16 16" class="social__icon" aria-hidden="true" width="16" height="16">
+                <path
+                  d="M13.601 2.326A7.977 7.977 0 0 0 8.003 0c-4.418 0-8 3.582-8 8 0 1.407.367 2.79 1.06 3.997L0 16l4.086-1.067A7.956 7.956 0 0 0 8.003 16c4.418 0 8-3.582 8-8a7.946 7.946 0 0 0-2.402-5.674zM8.003 14.5a6.5 6.5 0 0 1-3.316-.895l-.237-.14-2.425.634.647-2.362-.154-.242A6.47 6.47 0 0 1 1.5 8c0-3.586 2.917-6.5 6.503-6.5 1.737 0 3.37.676 4.6 1.905A6.47 6.47 0 0 1 14.503 8c0 3.586-2.916 6.5-6.5 6.5z"
+                  fill="currentColor" />
+                <path
+                  d="M11.534 9.128c-.19-.095-1.118-.553-1.291-.617-.173-.064-.3-.095-.427.095-.127.19-.49.617-.6.743-.11.127-.22.143-.41.048-.19-.095-.8-.295-1.524-.94-.563-.5-.94-1.115-1.05-1.305-.11-.19-.012-.293.083-.388.085-.086.19-.22.285-.33.095-.11.127-.19.19-.317.064-.127.032-.238-.016-.333-.048-.095-.427-1.03-.585-1.409-.154-.373-.311-.322-.427-.328-.11-.006-.238-.007-.366-.007a.704.704 0 0 0-.512.238c-.173.19-.676.66-.676 1.61 0 .95.693 1.867.79 1.994.095.127 1.366 2.091 3.31 2.932.463.2.825.319 1.106.408.464.148.886.127 1.22.077.372-.055 1.118-.456 1.276-.896.158-.44.158-.819.111-.896-.048-.079-.174-.127-.366-.222z"
+                  fill="currentColor" />
+              </svg>
+              656 692 945
+            </a></div>
+        </div>
+        <div class="map-scale"><iframe loading="lazy" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2954.1646188623795!2d-8.716694085006353!3d42.23229595115387!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd2f62658490c593%3A0x45f228a4b811ac3f!2sCentro%20de%20d%C3%ADa%20Net-Av%C3%B3!5e0!3m2!1ses!2ses!4v1473281305983"
+            referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
+      </div>
+      <div class="card" data-card-readmore="1" style="border-radius: var(--radius);">
+        <h4>Pr/ Vila de Bouzas nº2 · Vigo</h4>
+        <div class="phones">
+          <div><a href="tel:+34986177445" style="display:inline-flex;align-items:center;gap:.4rem;">
+              <svg viewBox="0 0 16 16" class="social__icon" aria-hidden="true" width="16" height="16">
+                <path
+                  d="M3.654 1.328a.678.678 0 0 1 1.015-.063L6.29 2.893c.329.329.445.81.29 1.234l-.547 1.493a.678.678 0 0 0 .173.7l2.457 2.457a.678.678 0 0 0 .7.173l1.493-.547a1.745 1.745 0 0 1 1.234.29l1.628 1.628a.678.678 0 0 1-.063 1.015l-1.017.813c-.58.464-1.4.58-2.09.29-1.254-.513-2.844-1.82-4.507-3.482C5.276 7.86 3.97 6.27 3.457 5.016c-.29-.69-.174-1.51.29-2.09l.813-1.017z"
+                  fill="currentColor" />
+              </svg>
+              986 177 445
+            </a></div>
+          <div><a href="https://wa.me/34623024084" target="_blank" rel="noopener" aria-label="WhatsApp: 623 024 084"
+              style="display:inline-flex;align-items:center;gap:.4rem;">
+              <svg viewBox="0 0 16 16" class="social__icon" aria-hidden="true" width="16" height="16">
+                <path
+                  d="M13.601 2.326A7.977 7.977 0 0 0 8.003 0c-4.418 0-8 3.582-8 8 0 1.407.367 2.79 1.06 3.997L0 16l4.086-1.067A7.956 7.956 0 0 0 8.003 16c4.418 0 8-3.582 8-8a7.946 7.946 0 0 0-2.402-5.674zM8.003 14.5a6.5 6.5 0 0 1-3.316-.895l-.237-.14-2.425.634.647-2.362-.154-.242A6.47 6.47 0 0 1 1.5 8c0-3.586 2.917-6.5 6.503-6.5 1.737 0 3.37.676 4.6 1.905A6.47 6.47 0 0 1 14.503 8c0 3.586-2.916 6.5-6.5 6.5z"
+                  fill="currentColor" />
+                <path
+                  d="M11.534 9.128c-.19-.095-1.118-.553-1.291-.617-.173-.064-.3-.095-.427.095-.127.19-.49.617-.6.743-.11.127-.22.143-.41.048-.19-.095-.8-.295-1.524-.94-.563-.5-.94-1.115-1.05-1.305-.11-.19-.012-.293.083-.388.085-.086.19-.22.285-.33.095-.11.127-.19.19-.317.064-.127.032-.238-.016-.333-.048-.095-.427-1.03-.585-1.409-.154-.373-.311-.322-.427-.328-.11-.006-.238-.007-.366-.007a.704.704 0 0 0-.512.238c-.173.19-.676.66-.676 1.61 0 .95.693 1.867.79 1.994.095.127 1.366 2.091 3.31 2.932.463.2.825.319 1.106.408.464.148.886.127 1.22.077.372-.055 1.118-.456 1.276-.896.158-.44.158-.819.111-.896-.048-.079-.174-.127-.366-.222z"
+                  fill="currentColor" />
+              </svg>
+              623 024 084
+            </a>
+          </div>
+        </div>
+        <div class="map-scale"><iframe loading="lazy"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d738.6203717986498!2d-8.75461937074844!3d42.225525491794876!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd2f61bdc02d697f%3A0x658d5c4bca8829e9!2sCentro%20de%20d%C3%ADa%20Net-Av%C3%B3%20Bouzas!5e0!3m2!1ses!2ses!4v1580240413811!5m2!1ses!2ses"
+            referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="social" aria-label="Redes sociales">
+        <a class="social__btn" href="https://www.facebook.com/netavocentrodedia" target="_blank" rel="noopener"
+          aria-label="Facebook">
+          <span class="social__glyph" aria-hidden="true">f</span>
+        </a>
+
+        <a class="social__btn" href="https://www.instagram.com/centrodedianetavo" target="_blank" rel="noopener"
+          aria-label="Instagram">
+          <svg viewBox="0 0 24 24" class="social__icon" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2" />
+            <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2" />
+            <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" />
+          </svg>
+        </a>
+
+        <a class="social__btn" href="https://wa.me/34656692945" target="_blank" rel="noopener" aria-label="WhatsApp">
+          <svg viewBox="0 0 16 16" class="social__icon" aria-hidden="true">
+            <path
+              d="M13.601 2.326A7.977 7.977 0 0 0 8.003 0c-4.418 0-8 3.582-8 8 0 1.407.367 2.79 1.06 3.997L0 16l4.086-1.067A7.956 7.956 0 0 0 8.003 16c4.418 0 8-3.582 8-8a7.946 7.946 0 0 0-2.402-5.674zM8.003 14.5a6.5 6.5 0 0 1-3.316-.895l-.237-.14-2.425.634.647-2.362-.154-.242A6.47 6.47 0 0 1 1.5 8c0-3.586 2.917-6.5 6.503-6.5 1.737 0 3.37.676 4.6 1.905A6.47 6.47 0 0 1 14.503 8c0 3.586-2.916 6.5-6.5 6.5z"
+              fill="currentColor" />
+            <path
+              d="M11.534 9.128c-.19-.095-1.118-.553-1.291-.617-.173-.064-.3-.095-.427.095-.127.19-.49.617-.6.743-.11.127-.22.143-.41.048-.19-.095-.8-.295-1.524-.94-.563-.5-.94-1.115-1.05-1.305-.11-.19-.012-.293.083-.388.085-.086.19-.22.285-.33.095-.11.127-.19.19-.317.064-.127.032-.238-.016-.333-.048-.095-.427-1.03-.585-1.409-.154-.373-.311-.322-.427-.328-.11-.006-.238-.007-.366-.007a.704.704 0 0 0-.512.238c-.173.19-.676.66-.676 1.61 0 .95.693 1.867.79 1.994.095.127 1.366 2.091 3.31 2.932.463.2.825.319 1.106.408.464.148.886.127 1.22.077.372-.055 1.118-.456 1.276-.896.158-.44.158-.819.111-.896-.048-.079-.174-.127-.366-.222z"
+              fill="currentColor" />
+          </svg>
+        </a>
+
+        <a class="social__btn" href="mailto:centrodedianetavo@gmail.com" aria-label="Correo electrónico">
+          <svg class="social__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+        </a>
+      </div>
+      <hr class="sep">
+      <address style="text-align:center;">Centro de día Net-Avó S.L — ©2025 · <a href="avisoLegal.pdf" target="_blank"
+          rel="noopener">Aviso Legal</a></address>
+    </div>
+    <div id="cookie-banner" class="cookie" role="dialog" aria-live="polite" aria-label="Preferencias de cookies">
+      <div class="container">
+        <div class="cookie-content">
+          <strong>Usamos cookies</strong>
+          <p class="muted">
+            Utilizamos cookies para mejorar la experiencia de usuario (p. ej., recordar el tema claro/oscuro) y,
+            opcionalmente, para métricas anónimas.
+          </p>
+          <div class="cookie__row">
+            <label><input type="checkbox" name="cookie-pref" value="necessary" checked disabled> Necesarias</label>
+            <label><input type="checkbox" name="cookie-pref" value="analytics"> Analíticas</label>
+            <label><input type="checkbox" name="cookie-pref" value="personalization"> Personalización</label>
+          </div>
+        </div>
+        <div class="cookie__actions">
+          <button class="btn btn--primary" data-cookie="accept-selected">Aceptar seleccionadas</button>
+          <button class="btn" data-cookie="accept-all">Aceptar todas</button>
+          <button class="btn" data-cookie="reject-all">Rechazar opcionales</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    if (typeof window.loadAndPaintNews === 'function') {
+      window.loadAndPaintNews('./noticias-familias.txt', 'repo-familias');
+    }
+  });
+</script>
+<script defer src="readmore.js"></script>
+</body>
+</html>
