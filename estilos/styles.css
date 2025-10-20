@@ -160,13 +160,13 @@ hr.sep{border:0; border-top:1px dashed var(--border); margin:1rem 0}
 /* ========== Noticias + Leer más (CÓDIGO NUEVO Y CORREGIDO) ================= */
 .news{padding:1rem 0 3rem}
 .news__list{margin-top:1rem}
-.news-col{display:flex; flex-direction:column; height:100%}
+.news-col{display:flex; flex-direction:column; height:100%; padding-left: 0%}
 
 /* --- 1. DISEÑO POR DEFECTO PARA MÓVILES (Mobile First) --- */
 .news-item {
   display: flex;
   flex-direction: column; /* VERTICAL por defecto */
-  gap: 1rem;
+  gap: 0.5rem;
   padding: 1rem;
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -591,9 +591,10 @@ html.theme-dark .filter-btn:hover { color: var(--brand-400); }
   .colab-grid-secundarias { grid-template-columns: repeat(2, 1fr); }
   .colab-section-title { font-size: 1.3rem; }
    .news-item {
-    width: 80% !important;
-    margin-left: 0.1rem !important;
+    width: 82% !important;
+    margin-left: 0rem !important;
     margin-right: 0.1rem !important;
+    
   }
 }
 
