@@ -670,3 +670,12 @@ html, body { max-width: 100%; overflow-x: clip; } /* evita scroll horizontal glo
   /* Suaviza el “rebote” que puede ocultar el header en algunos navegadores */
   body { overscroll-behavior-y: contain; }
 }
+/*
+  Estilo hover para los botones del submenú de noticias (index.html)
+  Usa los colores de las tarjetas de noticias para ser coherente.
+*/
+.news-submenu .btn:hover,
+.news-submenu .btn:focus-visible {
+  background-color: var(--brand-50); /* Fondo azul claro */
+  border-color: var(--brand-200);   /* Borde azul más oscuro */
+}
