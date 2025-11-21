@@ -214,16 +214,49 @@ hr.sep{border:0; border-top:1px dashed var(--border); margin:1rem 0}
 }
 
 /* --- 3. FUNCIONALIDAD "LEER MÁS" --- */
-.readmore{ --lines:5; position:relative; border-radius:inherit }
-.readmore[data-expanded="false"] .readmore__content{
-  display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:var(--lines);
-  line-clamp:var(--lines); overflow:hidden
+/* IMPORTANTE: Aquí está la corrección para permitir listas en el truncado */
+
+.readmore { 
+  position: relative; 
+  border-radius: inherit; 
 }
-.readmore__fade{display:none}
-.readmore[data-expanded="false"] .readmore__fade{
-  display:block; position:absolute; inset:0; pointer-events:none;
-  border-radius:inherit; z-index:1;
+
+/* ESTADO CERRADO: Usamos max-height y block para respetar el formato HTML */
+.readmore[data-expanded="false"] .readmore__content {
+  display: block !important;
+  max-height: 240px; /* Altura visible aproximada (ajusta según necesites) */
+  overflow: hidden;
+  position: relative;
+  
+  /* Máscara para suavizar el corte final */
+  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
 }
+
+/* ESTADO ABIERTO: Se muestra todo */
+.readmore[data-expanded="true"] .readmore__content {
+  display: block !important;
+  max-height: none;
+  overflow: visible;
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+
+/* Elemento de desvanecido decorativo (FADE) - Ahora opcional gracias a la máscara, pero lo mantenemos para soporte */
+.readmore__fade { display: none; }
+.readmore[data-expanded="false"] .readmore__fade {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px; 
+  /* Si usas máscara, esto puede ser transparente, si no, usa el degradado de abajo */
+  /* background: linear-gradient(to bottom, rgba(255,255,255,0), var(--card)); */
+  pointer-events: none;
+  z-index: 1;
+}
+
 .readmore__toggle {
   margin-top: auto; /* Empuja el botón hacia abajo */
   padding-top: 1rem; /* Espacio superior para separar del texto */
@@ -679,3 +712,43 @@ html, body { max-width: 100%; overflow-x: clip; } /* evita scroll horizontal glo
   background-color: var(--brand-50); /* Fondo azul claro */
   border-color: var(--brand-200);   /* Borde azul más oscuro */
 }
+/* --- PARCHE FINAL PARA FORZAR FORMATO EN NOTICIAS --- */
+
+/* 1. Anular cualquier regla que intente ocultar listas */
+.readmore__content.is-rich {
+    display: block !important; 
+    -webkit-line-clamp: unset !important; 
+    line-clamp: unset !important; 
+    -webkit-box-orient: unset !important; 
+}
+
+/* 2. Estado CERRADO: Usar altura fija, NUNCA line-clamp */
+.readmore[data-expanded="false"] .readmore__content {
+    display: block !important;    
+    max-height: 240px !important; /* Altura del corte en píxeles */
+    overflow: hidden !important;
+    position: relative !important;
+    
+    /* Máscara visual para suavizar el corte */
+    mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+}
+
+/* 3. Estado ABIERTO: Mostrar todo */
+.readmore[data-expanded="true"] .readmore__content {
+    max-height: none !important;
+    overflow: visible !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+}
+
+/* 4. Asegurar que las listas tengan espacio y puntos visibles */
+.readmore__content.is-rich ul,
+.readmore__content.is-rich ol {
+    display: block !important;
+    margin-bottom: 1rem !important;
+    padding-left: 1.5rem !important;
+    list-style-position: outside !important;
+}
+.readmore__content.is-rich ul { list-style-type: disc !important; }
+.readmore__content.is-rich ol { list-style-type: decimal !important; }

@@ -1,10 +1,7 @@
-// Centro de Día — main.js (FIX 2025-09-01)
-// - Tema claro/oscuro robusto (multi-botón, estado persistente, init correcto)
-// - Delegación global para botones "Leer más / Mostrar menos"
-// - Consentimiento de cookies unificado (multi-página, estado persistente)
-// - Banners y cookies (v2)
-// - Carrusel de imágenes (se ha mantenido la versión original)
-// - Cierre automático de menús desplegables
+// Centro de Día — main.js (MODIFICADO 2025)
+// - Tema claro/oscuro robusto
+// - Delegación global para botones "Leer más" (Formato inmediato)
+// - Consentimiento de cookies unificado
 // - Lógica de noticias unificada con BÚSQUEDA Y FILTROS
 // - Scripts globales [data-today]
 
@@ -14,8 +11,8 @@
   const COOKIE_NAME = "cookie_consent";
 
   // -- VARIABLES PARA GESTIONAR LAS NOTICIAS --
-  let allNewsItems = []; // Almacenará todas las noticias cargadas
-  let newsContainerId = ''; // Guardará el ID del contenedor de noticias
+  let allNewsItems = []; 
+  let newsContainerId = ''; 
 
   // ============ Tema claro/oscuro ============
   const html = document.documentElement;
@@ -49,36 +46,14 @@
     });
   });
   
-/* === U67 · TXT → HTML seguro con Leer más (no destructivo) =============== */
-function NETAVO_toRichHTML(raw) {
-  return marked.parse(raw || "");
-}
+/* === FUNCIONES OBSOLETAS (Se mantienen vacías o ignoradas para evitar errores si se llaman) === */
+// Al usar marked.parse directamente en la creación, ya no necesitamos estas funciones de transformación dinámica.
+function NETAVO_toRichHTML(raw) { return marked.parse(raw || ""); }
+function NETAVO_primeContent(contentEl) {}
+function NETAVO_applyFormatting(readmoreBox, expand) {}
 
-function NETAVO_primeContent(contentEl) {
-  if (!contentEl || contentEl.dataset.netavoPrimed === "1") return;
-  contentEl.dataset.previewHtml = contentEl.innerHTML;
-  contentEl.dataset.rawText = contentEl.parentElement.dataset.rawText || "";
-  contentEl.dataset.netavoPrimed = "1";
-}
-
-function NETAVO_applyFormatting(readmoreBox, expand) {
-  const contentEl = readmoreBox?.querySelector?.('.readmore__content');
-  if (!contentEl) return;
-  
-  NETAVO_primeContent(contentEl);
-
-  if (expand) {
-    if (!contentEl.dataset.richHtml) {
-      contentEl.dataset.richHtml = NETAVO_toRichHTML(contentEl.dataset.rawText);
-    }
-    contentEl.innerHTML = contentEl.dataset.richHtml;
-    contentEl.classList.add('is-rich');
-  } else {
-    contentEl.innerHTML = contentEl.dataset.previewHtml;
-    contentEl.classList.remove('is-rich');
-  }
-}
  // ============ Lógica Universal y Unificada de "Leer más" ============
+ // MODIFICADO: Ahora solo gestiona la expansión visual, el formato ya viene listo.
 document.body.addEventListener("click", e => {
   const btn = e.target.closest('.news-item .readmore__toggle');
   if (!btn) return;
@@ -89,35 +64,28 @@ document.body.addEventListener("click", e => {
   const isExpanded = readmoreBox.getAttribute("data-expanded") === "true";
   const expand = !isExpanded;
 
+  // Simplemente cambiamos el atributo. CSS se encarga de mostrar/ocultar el resto.
   readmoreBox.setAttribute("data-expanded", String(expand));
   btn.textContent = expand ? "Leer menos" : "Leer más";
   btn.setAttribute("aria-expanded", String(expand));
-
-  if (readmoreBox.closest('.news-item') && typeof NETAVO_applyFormatting === 'function') {
-    NETAVO_applyFormatting(readmoreBox, expand);
-  }
+  
+  // NOTA: Hemos eliminado la llamada a NETAVO_applyFormatting aquí porque el HTML ya es rico.
 });
-
- // main.js - CÓDIGO CORREGIDO
 
 // ============ Banners y cookies - Lógica unificada ============
 
-// ESTA FUNCIÓN AHORA GUARDA LAS PREFERENCIAS DETALLADAS
 function setCookieConsent(preferences) {
   try {
-    // Guarda un objeto JSON en lugar de un simple "true"
     localStorage.setItem(COOKIE_NAME, JSON.stringify(preferences));
   } catch (e) {
     console.error("Error al guardar el consentimiento de cookies:", e);
   }
   
-  // Ocultar el banner principal
   const banner = document.getElementById("cookie-banner");
   if (banner) {
     banner.style.display = "none";
   }
 
-  // Muestra el mensaje de confirmación
   const toast = document.getElementById("cookie-toast");
   if (toast) {
     toast.classList.add("show");
@@ -127,7 +95,6 @@ function setCookieConsent(preferences) {
   }
 }
 
-// ESTA FUNCIÓN AHORA LEE LAS CAJAS Y LLAMA A LA LÓGICA CORRECTA
 function handleCookieButtons() {
   const banner = document.getElementById("cookie-banner");
   if (!banner) return;
@@ -136,7 +103,6 @@ function handleCookieButtons() {
   const acceptSelectedButton = banner.querySelector('[data-cookie="accept-selected"]');
   const rejectButton = banner.querySelector('[data-cookie="reject-all"]');
 
-  // 1. Botón "Aceptar todas"
   if (acceptAllButton) {
     acceptAllButton.addEventListener("click", () => {
       const preferences = {
@@ -149,7 +115,6 @@ function handleCookieButtons() {
     });
   }
 
-  // 2. Botón "Aceptar seleccionadas"
   if (acceptSelectedButton) {
     acceptSelectedButton.addEventListener("click", () => {
       const analyticsChecked = banner.querySelector('input[value="analytics"]').checked;
@@ -164,7 +129,6 @@ function handleCookieButtons() {
     });
   }
 
-  // 3. Botón "Rechazar opcionales"
   if (rejectButton) {
     rejectButton.addEventListener("click", () => {
       const preferences = {
@@ -178,10 +142,7 @@ function handleCookieButtons() {
   }
 }
 
-// La función que muestra el banner no necesita cambios
 window.addEventListener("load", () => {
-    // MODIFICACIÓN IMPORTANTE: La comprobación ahora debe ser más genérica,
-    // ya que no guardamos un simple "true".
     const banner = document.getElementById("cookie-banner");
     if (banner && !localStorage.getItem(COOKIE_NAME)) {
         banner.style.display = "block";
@@ -242,8 +203,12 @@ function createNewsCard(n) {
       ? n.tagsArray.map(tag => `<span class="tag tag--brand" style="text-transform: capitalize;">${n.esc(tag)}</span>`).join(' ')
       : (n.kicker ? `<span class="tag tag--brand">${n.esc(n.kicker)}</span>` : '');
 
-    const excerptText = n.esc(n.excerpt);
-    const excerptHtml = n.excerpt ? `<div class="readmore__content"><p>${excerptText.replace(/\n/g, '<br>')}</p></div>` : '';
+    // --- CAMBIO PRINCIPAL AQUÍ ---
+    // Usamos marked.parse() directamente para que el extracto YA tenga formato (listas, negritas)
+    // Añadimos la clase 'is-rich' para que el CSS sepa que es contenido HTML complejo
+    const excerptHtml = n.excerpt 
+        ? `<div class="readmore__content is-rich">${marked.parse(n.excerpt)}</div>` 
+        : '';
 
     return `
     <article class="news-item card" id="${n._id}">
@@ -253,7 +218,8 @@ function createNewsCard(n) {
       <div class="news-item__content">
         <h4><a href="${n.url}" target="_blank" rel="noopener">${n.esc(n.title)}</a></h4>
         <div class="news-item__meta muted">${ds} ${tagsHtml ? ('• ' + tagsHtml) : ''}</div>
-        <div class="readmore" data-expanded="false" data-raw-text="${n.esc(n.excerpt)}">
+        
+        <div class="readmore" data-expanded="false">
           ${excerptHtml || ''}
           ${excerptHtml ? '<div class="readmore__fade"></div><button class="btn btn--sm readmore__toggle" type="button">Leer más</button>' : ''}
         </div>
@@ -331,6 +297,7 @@ function setupNewsControls() {
   }
 }
 
+// MODIFICADO: window.loadAndPaintNews debe ser global para ser llamado desde los HTML
 window.loadAndPaintNews = async function(url, containerId, maxItems) {
     newsContainerId = containerId;
     try {
@@ -372,7 +339,7 @@ document.body.addEventListener('click', e => {
     targetArticle.scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
 
-// Mantenemos las llamadas originales
+// Mantenemos las llamadas originales (por compatibilidad si se usaban)
 window.noti1 = function() { loadAndPaintNews('./noticias.txt', 'news-centro', 1); };
 window.noti2 = function() { loadAndPaintNews('./noticias-familias.txt', 'news-familias', 1); };
 window.noti3 = function() { loadAndPaintNews('./noticias-profesionales.txt', 'news-profesionales', 1); };
@@ -393,7 +360,7 @@ window.noti3 = function() { loadAndPaintNews('./noticias-profesionales.txt', 'ne
     });
   });
 
-  // ============ Carrusel de imágenes (se ha mantenido la versión original) ===========
+  // ============ Carrusel de imágenes ============
   (function() {
     const images = [
       './imagenes/alterna1.jpeg', './imagenes/alterna2.jpeg', './imagenes/alterna3.jpeg',
@@ -412,7 +379,7 @@ window.noti3 = function() { loadAndPaintNews('./noticias-profesionales.txt', 'ne
     }
   })();
   
-  // ============ Menú móvil (lógica duplicada eliminada para limpieza) ===========
+  // ============ Menú móvil ============
   function setupMobileMenu() {
     const navToggle = document.getElementById('nav-toggle');
     const navLinks = document.querySelectorAll('.nav a, .nav .menu-dd__list a');
@@ -471,7 +438,7 @@ window.noti3 = function() { loadAndPaintNews('./noticias-profesionales.txt', 'ne
     });
   })();
 
-  // ============ Spacer dinámico para header fijo ============
+  // ============ Spacer dinámico ============
   (function () {
     var header = document.querySelector('.header');
     var spacer = document.querySelector('[data-header-spacer]');
@@ -504,32 +471,20 @@ window.noti3 = function() { loadAndPaintNews('./noticias-profesionales.txt', 'ne
   (function(){
     var t = document.getElementById('nav-toggle') || document.querySelector('.nav-toggle');
     if(!t) return;
+
     function sync(){ document.body.classList.toggle('nav-open', !!t.checked); }
     document.addEventListener('DOMContentLoaded', sync);
     t.addEventListener('change', sync);
+
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && t.checked){ t.checked = false; sync(); }
+    });
+
+    document.addEventListener('click', function(e){
+      if(!document.body.classList.contains('nav-open')) return;
+      if(e.target.closest('.nav') || e.target.closest('.nav-burger')) return;
+      t.checked = false; sync();
+    }, {capture:true});
   })();
 
-})();
-
-/* === U67 · Sincroniza estado del menú con <body> y cierra al tocar fuera === */
-(function(){
-  var t = document.getElementById('nav-toggle') || document.querySelector('.nav-toggle');
-  if(!t) return;
-
-  function sync(){ document.body.classList.toggle('nav-open', !!t.checked); }
-  // Al cargar, por si el navegador recuerda el estado del checkbox
-  document.addEventListener('DOMContentLoaded', sync);
-  t.addEventListener('change', sync);
-
-  // Cerrar al pulsar ESC
-  document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape' && t.checked){ t.checked = false; sync(); }
-  });
-
-  // Cerrar al tocar el scrim / fuera del panel
-  document.addEventListener('click', function(e){
-    if(!document.body.classList.contains('nav-open')) return;
-    if(e.target.closest('.nav') || e.target.closest('.nav-burger')) return;
-    t.checked = false; sync();
-  }, {capture:true});
 })();

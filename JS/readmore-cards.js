@@ -1,20 +1,20 @@
-/*! readmore-cards.js (VERSIÓN DEFINITIVA con carrusel integrado y anti-controles)
- * Crea un carrusel simple y automático e inyecta CSS para ocultar
- * controles de otras librerías de galerías que puedan interferir.
+/*! readmore-cards.js (CORREGIDO: Respeta formato HTML y Listas)
+ * 1. Inyecta estilos para truncado visual (max-height) en lugar de cortar texto.
+ * 2. Mantiene listas, negritas y estructura HTML original.
+ * 3. Incluye la lógica del carrusel automático.
  */
 (function () {
   "use strict";
   if (window.__cardsReadmoreEnhanced__) return;
   window.__cardsReadmoreEnhanced__ = true;
 
-  // --- NUEVO: Inyector de CSS Anti-Controles ---
-  // Esta función se ejecuta una vez y añade una regla de estilo
-  // para ocultar los controles de galerías dentro de nuestro carrusel.
-  function injectCarouselStyles() {
-    if (document.getElementById('carousel-override-styles')) return;
+  // --- 1. INYECTOR DE CSS (Estilos funcionales y Anti-Controles) ---
+  function injectStyles() {
+    if (document.getElementById('readmore-injected-styles')) return;
     const style = document.createElement('style');
-    style.id = 'carousel-override-styles';
+    style.id = 'readmore-injected-styles';
     style.innerHTML = `
+      /* Ocultar controles de galerías externas */
       #carrusel-bloque1 button,
       #carrusel-bloque1 [class*="toolbar"],
       #carrusel-bloque1 [class*="caption"],
@@ -25,105 +25,133 @@
         display: none !important;
         visibility: hidden !important;
       }
+
+      /* Estilos para el truncado visual que RESPETA HTML */
+      .readmore-wrapper {
+        display: block;
+        overflow: hidden;
+        max-height: 180px; /* Altura del contenido visible cuando está cerrado */
+        position: relative;
+        transition: max-height 0.5s ease;
+        
+        /* Máscara de degradado para suavizar el corte */
+        mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+      }
+
+      /* Estado expandido */
+      .card.is-expanded .readmore-wrapper {
+        max-height: none; /* Muestra todo el contenido */
+        overflow: visible;
+        mask-image: none;
+        -webkit-mask-image: none;
+      }
+
+      /* Botón Leer más */
+      .read-toggle {
+        margin-top: 1rem;
+        display: inline-block;
+        cursor: pointer;
+      }
     `;
     document.head.appendChild(style);
   }
-  injectCarouselStyles();
-  // --- FIN DEL INYECTOR ---
+  injectStyles();
 
-  const LIMIT = 80;
+  // --- CONFIGURACIÓN ---
   const CARD_SEL = ".card";
-  const EXCLUDE_SEL = ".news-item";
-  const SKIP = /^(button|nav|footer|header|figure|img|video|audio|canvas|iframe|script|style)$/i;
-  const IS_H = /^h[1-6]$/i;
+  // Excluimos las noticias porque esas las gestiona main.js
+  const EXCLUDE_SEL = ".news-item"; 
+  // Elementos que ignoramos al buscar el contenido (footer, header, etc.)
+  const SKIP_TAGS = /^(button|nav|footer|header|script|style)$/i;
+  // Detectar encabezados para saber dónde empezar a envolver
+  const IS_HEADER = /^h[1-6]$/i;
 
-  function words(t){ return String(t||"").trim().replace(/\s+/g," ").split(" ").filter(Boolean); }
-  function escape(s){ return String(s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
-  
-  function truncate(text, max){
-    const w = words(text);
-    if (w.length <= max) return { html: `<p>${escape(text)}</p>`, cut: false };
-    return { html: `<p>${escape(w.slice(0,max).join(" "))}…</p>`, cut: true };
-  }
-
-  function pickRegion(card){
+  // --- 2. LÓGICA DE SELECCIÓN DE CONTENIDO ---
+  function pickContentNodes(card) {
     const kids = Array.from(card.children);
-    if (!kids.length) return null;
-    let start = 0;
-    const hidx = kids.findIndex(el => IS_H.test(el.tagName));
-    if (hidx !== -1) start = hidx + 1;
-    let region = kids.slice(start).filter(el => !SKIP.test(el.tagName));
-    if (!region.length) region = kids.slice(start);
-    return region.length ? region : null;
+    if (!kids.length) return [];
+
+    let startIndex = 0;
+    // Buscamos el último título (h3, h4...) para empezar el contenido justo después
+    const lastHeaderIndex = kids.findLastIndex(el => IS_HEADER.test(el.tagName));
+    
+    if (lastHeaderIndex !== -1) {
+      startIndex = lastHeaderIndex + 1;
+    }
+
+    // Filtramos nodos que no queremos mover (botones existentes, etc.)
+    const contentNodes = kids.slice(startIndex).filter(el => !SKIP_TAGS.test(el.tagName));
+    
+    return contentNodes;
   }
-  
-  function regionHTML(nodes){ return nodes.map(n => n.outerHTML).join(""); }
-  function regionText(nodes){ return nodes.map(n => n.textContent || "").join(" ").replace(/\s+/g," ").trim(); }
-  
-  function ensureBtn(card){
+
+  function ensureBtn(card) {
     let btn = card.querySelector(":scope > .read-toggle");
-    if (!btn){
+    if (!btn) {
       btn = document.createElement("button");
       btn.type = "button";
       btn.className = "read-toggle btn btn--sm";
-      card.appendChild(btn);
+      card.appendChild(btn); // Añadimos el botón al final de la tarjeta
     }
-    btn.hidden = false;
-    btn.style.display = "inline-block";
     btn.textContent = "Leer más";
-    btn.setAttribute("aria-expanded","false");
+    btn.setAttribute("aria-expanded", "false");
     return btn;
   }
-  
-  function enhance(card){
+
+  // --- 3. FUNCIÓN PRINCIPAL DE MEJORA (ENHANCE) ---
+  function enhance(card) {
     if (card.dataset.cardReadmore === "1") return;
-    if (card.matches(EXCLUDE_SEL)) return;
+    if (card.matches(EXCLUDE_SEL)) return; // No tocar noticias
 
-    const region = pickRegion(card);
-    if (!region) return;
+    const nodesToWrap = pickContentNodes(card);
+    if (!nodesToWrap.length) return;
 
-    const parent = region[0].parentNode;
-    const ref = region[0];
-    const originalHTML = regionHTML(region);
-    
-    const { html: truncatedHTML, cut } = truncate(regionText(region), LIMIT);
+    // Calculamos si el contenido es suficientemente largo para necesitar truncado
+    // Sumamos la altura aproximada de los elementos
+    let totalHeight = 0;
+    nodesToWrap.forEach(node => totalHeight += node.offsetHeight || 20);
 
-    const wrap = document.createElement("div");
-    wrap.className = "readmore-wrapper";
-    const content = document.createElement("span");
-    content.className = "readmore-content";
-    content.innerHTML = truncatedHTML;
-    wrap.appendChild(content);
-    parent.insertBefore(wrap, ref);
-    region.forEach(n => n.parentNode && n.parentNode.removeChild(n));
+    // Si el contenido es pequeño (menos de 200px), no hacemos nada
+    if (totalHeight < 220) return;
+
+    // --- AQUÍ ESTÁ LA MAGIA: Envolver sin destruir HTML ---
+    const wrapper = document.createElement("div");
+    wrapper.className = "readmore-wrapper";
+
+    // Insertamos el wrapper antes del primer nodo de contenido
+    const firstNode = nodesToWrap[0];
+    firstNode.parentNode.insertBefore(wrapper, firstNode);
+
+    // Movemos los nodos originales DENTRO del wrapper (preservando formato)
+    nodesToWrap.forEach(node => wrapper.appendChild(node));
 
     card.dataset.cardReadmore = "1";
-
-    if (!cut) return;
-
     const btn = ensureBtn(card);
-    card.dataset.originalHtml = originalHTML;
 
+    // --- 4. LÓGICA DEL CLICK ---
     btn.addEventListener("click", () => {
-      const expanded = btn.getAttribute("aria-expanded") === "true";
-      if (expanded){
-        content.innerHTML = truncate(regionText(region), LIMIT).html;
-        btn.textContent = "Leer más";
-        btn.setAttribute("aria-expanded","false");
-        card.classList.remove("is-expanded");
-      } else {
-        content.innerHTML = card.dataset.originalHtml || content.innerHTML;
-        btn.textContent = "Leer menos";
-        btn.setAttribute("aria-expanded","true");
-        card.classList.add("is-expanded");
+      const isExpanded = card.classList.contains("is-expanded");
 
+      if (isExpanded) {
+        // CONTRAER
+        card.classList.remove("is-expanded");
+        btn.textContent = "Leer más";
+        btn.setAttribute("aria-expanded", "false");
+      } else {
+        // EXPANDIR
+        card.classList.add("is-expanded");
+        btn.textContent = "Leer menos";
+        btn.setAttribute("aria-expanded", "true");
+
+        // --- 5. LÓGICA DEL CARRUSEL (TU CÓDIGO ORIGINAL) ---
         const carouselElement = card.querySelector('#carrusel-bloque1');
         if (carouselElement && !carouselElement.dataset.isInitialized) {
             
             let imagenesParaCarrusel = [];
             const currentPage = window.location.pathname.split('/').pop();
 
-            if (currentPage === 'VazquezVarela.html') {
+            if (currentPage === 'VazquezVarela.html' || window.location.href.includes('VazquezVarela')) {
                 imagenesParaCarrusel = [
                     'imagenes/fotos/VazquezVarela/3.jpg','imagenes/fotos/VazquezVarela/4.jpg','imagenes/fotos/VazquezVarela/5.jpg',
                     'imagenes/fotos/VazquezVarela/6.jpg','imagenes/fotos/VazquezVarela/7.jpg','imagenes/fotos/VazquezVarela/8.jpg',
@@ -135,7 +163,7 @@
                     'imagenes/fotos/VazquezVarela/24.jpg','imagenes/fotos/VazquezVarela/25.jpg','imagenes/fotos/VazquezVarela/26.jpg',
                     'imagenes/fotos/VazquezVarela/27.jpg',
                 ];
-            } else if (currentPage === 'Bouzas.html') {
+            } else if (currentPage === 'Bouzas.html' || window.location.href.includes('Bouzas')) {
                 imagenesParaCarrusel = [
                     'imagenes/fotos/Bouzas/3.jpg','imagenes/fotos/Bouzas/4.jpg','imagenes/fotos/Bouzas/5.jpg','imagenes/fotos/Bouzas/6.jpg',
                     'imagenes/fotos/Bouzas/7.jpg','imagenes/fotos/Bouzas/8.jpg','imagenes/fotos/Bouzas/9.jpg','imagenes/fotos/Bouzas/11.jpg',
@@ -168,6 +196,7 @@
     });
   }
 
+  // --- INICIALIZACIÓN ---
   function init(){
     const cards = Array.from(document.querySelectorAll(CARD_SEL)).filter(c => !c.matches(EXCLUDE_SEL));
     if (!cards.length) return false;
